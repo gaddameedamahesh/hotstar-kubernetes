@@ -15,7 +15,7 @@ pipeline{
         }
         stage('Checkout from Git'){
             steps{
-                git branch: 'main', credentialsId: 'github-token', url: 'https://github.com/Aseemakram19/hotstar-kubernetes.git'
+                git branch: 'main', credentialsId: 'github-token', url: 'https://github.com/gaddameedamahesh/hotstar-kubernetes.git'
             }
         }
         stage("Sonarqube Analysis "){
@@ -54,20 +54,20 @@ pipeline{
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
                        sh "docker build -t hotstar ."
-                       sh "docker tag hotstar aseemakram19/hotstar:latest "
-                       sh "docker push aseemakram19/hotstar:latest "
+                       sh "docker tag hotstar maheshg123/hotstar:latest "
+                       sh "docker push maheshg123/hotstar:latest "
                     }
                 }
             }
         }
         stage("TRIVY"){
             steps{
-                sh "trivy image aseemakram19/hotstar:latest > trivyimage.txt" 
+                sh "trivy image maheshg123/hotstar:latest > trivyimage.txt" 
             }
         }
         stage('Deploy to container'){
             steps{
-                sh 'docker run -d --name hotstar -p 3000:3000 aseemakram19/hotstar:latest'
+                sh 'docker run -d --name hotstar -p 3000:3000 maheshg123/hotstar:latest'
             }
         }
 
